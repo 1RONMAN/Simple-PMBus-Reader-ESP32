@@ -1,48 +1,56 @@
-# ESP32-PMBus-Reader
+# Simple PMBus Power Supply Monitor & Controller
 
-v1基于 [sxjack/dps750tb_psu_i2c](https://github.com/sxjack/dps750tb_psu_i2c) 项目。
+**v1** is based on the [sxjack/dps750tb_psu_i2c](https://github.com) project.  
+**v2** is based on the `CSPS_TO_USB_AND_WIFI` project.
 
-v2基于 [CSPS_TO_USB_AND_WIFI](https://github.com/bilibilifmk/CSPS_TO_USB_AND_WIFI) 项目。
+This is a lightweight PMBus utility designed for ESP32 to monitor server Power Supply Units (PSUs) via the I2C interface. It reads real-time telemetry data (voltage, current, power, temperature, and fan speed) and outputs it via the serial console. It also supports remote power control via the PSON pin and custom fan speed duty cycle adjustments (v2).
 
-这是一个简单的 PMBus 电源监控器，通过 I2C 接口读取服务器电源（PSU）的实时遥测数据（电压、电流、功率、温度、转速），并通过串口打印输出。支持通过 PSON 引脚控制电源开关，风扇转速设置（v2）。
+---
 
-## 功能特性
+## Features
+- **Real-Time Telemetry:** Continuous monitoring of input/output voltage (V), current (A), and power (W).
+- **Environmental Monitoring:** Real-time readings from internal temperature sensors and fan speeds (RPM).
+- **Diagnostic Logging:** Direct fetching of the PMBus standard status word (`STATUS_WORD`) for error tracking.
+- **Serial Interface:** Operates at a baud rate of `115200` for seamless debugging, logging, or integration with a GUI/host application.
+- **PSU & Fan Control:** Full power cycle management via the `PSON#` pin and dynamic fan speed adjustment (v2).
 
-*   **实时数据读取**：监测输入/输出电压 (V)、电流 (A)、功率 (W)。
-*   **环境监控**：读取温度传感器数据及风扇转速 (RPM)。
-*   **状态监控**：获取 PMBus 状态字。
-*   **串口输出/控制**：波特率 115200，方便调试或上位机开发。
-*   **电源控制**：支持 PSON# 引脚控制电源启停，风扇转速设置（v2）。
+---
 
-## 硬件兼容性 / Tested Hardware
+## Hardware Compatibility / Tested Hardware
+This firmware has been actively verified and tested on the following server PSU models:
 
-本项目代码已在以下电源型号上实测通过：
+- ✅ **LITEON PS-2461-7H**
+- ✅ *[Add your Great Wall / other model here if tested]*
 
-*   ✅ **LITEON PS-2461-7H**
+---
 
-## 接线说明 / Wiring
+## Wiring & Pinout
+Default pin configuration (can be redefined in the source code):
 
-默认引脚定义（可在代码中修改）：
-
-| ESP32 引脚 | 功能 | 连接到 |
+| ESP32 Pin | Function | Connects to |
 | :--- | :--- | :--- |
-| GPIO 18 | I2C SDA | PSU SDA |
-| GPIO 8 | I2C SCL | PSU SCL |
+| **GPIO 18** | I2C SDA | PSU SDA |
+| **GPIO 8**  | I2C SCL | PSU SCL |
+| **GPIO X**  | Control | PSU PSON# |
 
-> **注意**：服务器电源的 I2C 理论上已具有上拉电阻，如果上拉较弱，可能需要在 SDA 和 SCL 线上额外并联 2k-10k 的上拉电阻才能稳定通信。
+> ⚠️ **Important I2C Note:** While most server PSUs feature internal pull-up resistors on the I2C lines, they can often be too weak for stable high-speed communication. If you experience bus timeouts or communication drops, it is highly recommended to add hardware **2kΩ to 10kΩ pull-up resistors** between the SDA/SCL lines and the `3.3V` rail.
 
-## 如何使用
+---
 
-1.  使用 PlatformIO 打开项目 
-2.  上传代码。
-3.  打开串口监视器（波特率设为 115200）查看数据。
+## Getting Started
+1. Clone this repository and open the project using **PlatformIO** (VS Code).
+2. Connect your ESP32 to the server PSU according to the wiring guide above.
+3. Flash the firmware to your microcontroller.
+4. Open your favorite Serial Monitor tool, set the baud rate to **115200**, and watch the telemetry stream.
 
-## 致谢
+---
 
-本项目基于以下开源项目修改：
-*   [sxjack/dps750tb_psu_i2c](https://github.com/sxjack/dps750tb_psu_i2c) - v1版本的 PMBus PSU I2C 读取实现
-*   [CSPS_TO_USB_AND_WIFI](https://github.com/bilibilifmk/CSPS_TO_USB_AND_WIFI) - v2版本的 PMBus PSU I2C 读取实现
+## Credits & Acknowledgments
+This project has been remixed and enhanced based on the following awesome open-source repositories:
+- [sxjack/dps750tb_psu_i2c](https://github.com) — PMBus PSU I2C readout implementation used in the **v1** branch.
+- `CSPS_TO_USB_AND_WIFI` — PMBus PSU I2C readout & telemetry framework used in the **v2** branch.
 
-## 许可证
+---
 
-MIT License
+## License
+This project is licensed under the [MIT License](LICENSE).
