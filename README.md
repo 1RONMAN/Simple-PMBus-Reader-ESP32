@@ -1,7 +1,7 @@
 # Simple PMBus Power Supply Monitor & Controller
 
 **v1** is based on the [sxjack/dps750tb_psu_i2c](https://github.com) project.  
-**v2** is based on the `CSPS_TO_USB_AND_WIFI` project.
+**v2** is based on the [CSPS_TO_USB_AND_WIFI](https://github.com/bilibilifmk/CSPS_TO_USB_AND_WIFI) project.
 
 This is a lightweight PMBus utility designed for ESP32 to monitor server Power Supply Units (PSUs) via the I2C interface. It reads real-time telemetry data (voltage, current, power, temperature, and fan speed) and outputs it via the serial console. It also supports remote power control via the PSON pin and custom fan speed duty cycle adjustments (v2).
 
