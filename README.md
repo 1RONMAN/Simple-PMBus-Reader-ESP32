@@ -12,7 +12,7 @@ This is a lightweight PMBus utility designed for ESP32 to monitor server Power S
 - **Environmental Monitoring:** Real-time readings from internal temperature sensors and fan speeds (RPM).
 - **Diagnostic Logging:** Direct fetching of the PMBus standard status word (`STATUS_WORD`) for error tracking.
 - **Serial Interface:** Operates at a baud rate of `115200` for seamless debugging, logging, or integration with a GUI/host application.
-- **PSU & Fan Control:** Full power cycle management via the `PSON#` pin and dynamic fan speed adjustment (v2).
+- **PSU & Fan Control:** Full power cycle management via the `PSON` pin and dynamic fan speed adjustment (v2).
 
 ---
 
